@@ -16,7 +16,7 @@ import com.project1.atefcharles.util.ConnectionUtil;
 public class App 
 {
     public static void main( String[] args )
-    {
+    {//sublte change
        //test connectivity
 		try(Connection connection = ConnectionUtil.getConnection()) {
 			String sql = "SELECT id, build_name, apartment_number FROM houses " +
