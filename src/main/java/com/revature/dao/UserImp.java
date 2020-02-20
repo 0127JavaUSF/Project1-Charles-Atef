@@ -20,7 +20,7 @@ public class UserImp implements Iuser {
 	}
 
 	@Override
-	public String hashPAssword(String password1) throws SQLException {
+	public String hashPAssword() throws SQLException {
 		//String hashedPassword = BCrypt.hashpw(password1,BCrypt.gensalt());
 		String password = null;
 		try (Connection connection = ConnectionUtil.getConnection()){

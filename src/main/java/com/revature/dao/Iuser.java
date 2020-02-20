@@ -7,6 +7,6 @@ import java.sql.SQLException;
 public interface Iuser {
 	
 	User logIn(String username, String password);
-	String hashPAssword(String password) throws SQLException;
+	String hashPAssword() throws SQLException;
 
 }
