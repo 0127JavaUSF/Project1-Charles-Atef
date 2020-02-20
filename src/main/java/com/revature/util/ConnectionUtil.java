@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		
 		String url =System.getenv("JDBC_URL1");
         String password = System.getenv("JDBC_PASSWORD1");
