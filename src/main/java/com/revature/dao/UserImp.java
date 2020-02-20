@@ -23,18 +23,27 @@ public class UserImp implements Iuser {
 	public String hashPAssword() throws SQLException {
 		//String hashedPassword = BCrypt.hashpw(password1,BCrypt.gensalt());
 		String password = null;
+		String hashedPassword = null;
 		try (Connection connection = ConnectionUtil.getConnection()){
 
 			String sql = "SELECT * FROM " + USER_TABLE;
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet resultSet =statement.executeQuery();
 			if (resultSet.next()){
+				int userID = resultSet.getInt("ers_user_id");
 				password = resultSet.getString("ers_password");
+				hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
+				String sql2 = "UPDATE " + USER_TABLE + "SET ers_password = " + hashedPassword
+						+ "Where ers_user_id = " + userID;
+				PreparedStatement statement1 = connection.prepareStatement(sql2);
+				statement1.executeUpdate();
+				connection.commit();
 			}
 		} catch (SQLException e) {
 			throw new SQLException();
 		}
-		String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
+
+
 		return hashedPassword;
 	}
 
