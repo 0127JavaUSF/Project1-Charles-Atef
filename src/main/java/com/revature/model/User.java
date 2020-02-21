@@ -2,8 +2,7 @@ package com.revature.model;
 
 public class User {
 	
-	public static final int FINANCE_MANAGER = 1;
-    public static final int EMPLOYEE = 2;
+
 
     private int userID;
     private String userName;

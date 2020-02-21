@@ -4,16 +4,6 @@ import java.security.Timestamp;
 import java.sql.Blob;
 
 public class Reimbursement {
-	
-	public static final int LOGING = 1;
-    public static final int TRAVEL = 2;
-    public static final int FOOD = 3;
-    public static final int OTHER = 4;
-
-    public static final int STATUS_PENDDING = 1;
-    public static final int STATUS_APPROVED = 2;
-    public static final int STATUS_REJECTED = 3;
-
     private int reimId;
     private double reimbAmount;
     private Timestamp reimbSubmitted;
