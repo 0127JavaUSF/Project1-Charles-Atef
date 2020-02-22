@@ -1,10 +1,11 @@
 package com.revature.model;
 
+import java.util.ArrayList;
+
 public class User {
 	
-	public static final int FINANCE_MANAGER = 1;
-    public static final int EMPLOYEE = 2;
 
+	private ArrayList<Reimbursement> managerViewableReimbs;
     private int userID;
     private String userName;
     private String firstName;
@@ -59,6 +60,13 @@ public class User {
 	}
 	public void setUserRoleId(int userRoleId) {
 		this.userRoleId = userRoleId;
+	}
+	public ArrayList<Reimbursement> getManagerViewableReimbs() {//will return null for regular users
+		return managerViewableReimbs;
+	}
+	public void setManagerViewableReimbs(ArrayList<Reimbursement> managerViewableReimbs) {//will be used to set the current Reimbs viewable by manager
+		this.managerViewableReimbs.clear();//clears out previous reimbs
+		this.managerViewableReimbs = managerViewableReimbs;
 	}
 	
     
