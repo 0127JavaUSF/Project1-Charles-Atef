@@ -97,10 +97,7 @@ public class ErsServlet extends HttpServlet {
 		
 	}
 
-	private int parseInt(String parameter) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
