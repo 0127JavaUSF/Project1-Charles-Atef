@@ -1,7 +1,6 @@
 package com.revature.model;
 
-import java.security.Timestamp;
-import java.sql.Blob;
+import java.sql.Timestamp;
 
 public class Reimbursement {
     private int reimId;
@@ -9,8 +8,18 @@ public class Reimbursement {
     private Timestamp reimbSubmitted;
     private Timestamp reimbResolved;
     private String reimbDescription;
+
+	private String reimbReceipt;
+    private int reimbAuthor;
+    private int reimbResolver;
+    private int reimbStatusId;
+    public int getReimId() {
+		return reimId;
+	}
+    
+    
     public Reimbursement(int reimId, double reimbAmount, Timestamp reimbSubmitted, Timestamp reimbResolved,
-			String reimbDescription, Blob reimbReceipt, int reimbAuthor, int reimbResolver, int reimbStatusId,
+			String reimbDescription, String reimbReceipt, int reimbAuthor, int reimbResolver, int reimbStatusId,
 			int reimbTypeId) {
 		super();
 		this.reimId = reimId;
@@ -28,13 +37,9 @@ public class Reimbursement {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	private Blob reimbReceipt;
-    private int reimbAuthor;
-    private int reimbResolver;
-    private int reimbStatusId;
-    public int getReimId() {
-		return reimId;
-	}
+
+
+
 	public void setReimId(int reimId) {
 		this.reimId = reimId;
 	}
@@ -62,10 +67,10 @@ public class Reimbursement {
 	public void setReimbDescription(String reimbDescription) {
 		this.reimbDescription = reimbDescription;
 	}
-	public Blob getReimbReceipt() {
+	public String getReimbReceipt() {
 		return reimbReceipt;
 	}
-	public void setReimbReceipt(Blob reimbReceipt) {
+	public void setReimbReceipt(String reimbReceipt) {
 		this.reimbReceipt = reimbReceipt;
 	}
 	public int getReimbAuthor() {

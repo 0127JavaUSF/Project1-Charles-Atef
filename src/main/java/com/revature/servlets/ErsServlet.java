@@ -1,12 +1,18 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dao.ReimbursementImp;
+import com.revature.model.ReimbStatus;
+import com.revature.model.User;
+import com.revature.model.*;
 
 
 /**
@@ -43,8 +49,24 @@ public class ErsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		ReimbursementImp reimDao = new ReimbursementImp();
+		ObjectMapper om = new ObjectMapper();
+		// TODO will be removed once an actual user is passed with the get method to determine intentions, using one that exists in db
+		User theUser = new User(0, "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", 1);
+			
+		if (theUser.getUserRoleId()== 1) {	//if the roleId is 1, they are a manager and wanna see reimbursements...
+			ArrayList<Reimbursement> reimbsRequested = reimDao.extractReimbursementsByStatus(theUser, ReimbStatus.APPROVED);
+			System.out.println("jank debugging after getUserRoleId");
+			om.writeValue(response.getWriter(), reimbsRequested);
+			
+		}
+		else {
+			System.out.println("jank debugging User is not a manager...");
+			response.getWriter().append("User is not a manager").append(request.getContextPath());
+		}
+		//return as JSON using marshalling
+		
+		
 		
 	}
 

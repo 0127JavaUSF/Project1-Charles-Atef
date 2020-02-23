@@ -22,7 +22,7 @@ public class UserImp implements Iuser {
 	}
 
 	@Override
-	public String hashPAssword() throws SQLException {
+	public String hashPassword() throws SQLException {
 		//String hashedPassword = BCrypt.hashpw(password1,BCrypt.gensalt());
 		String password = null;
 		String hashedPassword = null;
