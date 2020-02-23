@@ -11,6 +11,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+	private int userRoleId;
     public User(int userID, String userName, String firstName, String lastName, String email, int userRoleId) {
 		super();
 		this.userID = userID;
@@ -24,7 +25,7 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	private int userRoleId;
+
 	public int getUserID() {
 		return userID;
 	}

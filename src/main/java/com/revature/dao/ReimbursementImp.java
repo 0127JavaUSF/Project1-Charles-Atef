@@ -30,7 +30,8 @@ public class ReimbursementImp implements Ireimbursement {
 		}
 		try(Connection connection = com.revature.util.ConnectionUtil.getConnection()){
 			String sql= "SELECT ers_reimbursement.reimb_id, ers_reimbursement.reimb_amount, ers_reimbursement.reimb_resolved, ers_reimbursement.reimb_submitted, " + 
-					"ers_reimbursement.reimb_description, ers_reimbursement.reimb_receipt, ers_reimbursement.reimb_author, ers_reimbursement.reimb_resolver, ers_reimbursement.reimb_status_id FROM ers_users " + 
+					"ers_reimbursement.reimb_description, ers_reimbursement.reimb_receipt, ers_reimbursement.reimb_author, ers_reimbursement.reimb_resolver, "
+					+ " ers_reimbursement.reimb_status_id, ers_reimbursement.reimb_type_id FROM ers_users " + 
 					"JOIN ers_user_roles ON ers_users.user_role_id = ers_user_roles.ers_user_role_id " + 
 					"JOIN ers_reimbursement ON ers_users.ers_user_id = ers_reimbursement.reimb_author " + 
 					"JOIN ers_reimbursement_type ON ers_reimbursement.reimb_type_id = ers_reimbursement_type.reimb_type_id " + 
@@ -51,11 +52,11 @@ public class ReimbursementImp implements Ireimbursement {
 //				ers_reimbursement.reimb_id, ers_reimbursement.reimb_amount, ers_reimbursement.reimb_resolved, 
 //				ers_reimbursement.reimb_description, ers_reimbursement.reimb_receipt, ers_reimbursement.reimb_author, ers_reimbursement.reimb_resolver, ers_reimbursement.reimb_status_id
 //				
-				managerList.add(new Reimbursement(rs.getInt("reimb_id"), rs.getDouble("reimb_amount"), rs.getTimestamp("reimb_submitted"), rs.getTimestamp("reimbResolved"),rs.getString("reimbDescription"), rs.getString("reimb_receipt"), rs.getInt("reimb_author"), rs.getInt("reimb_resolver"), rs.getInt("reimb_status_id"), rs.getInt("reimbTypeId")));
+				managerList.add(new Reimbursement(rs.getInt("reimb_id"), rs.getDouble("reimb_amount"), rs.getTimestamp("reimb_submitted"), rs.getTimestamp("reimb_resolved"),rs.getString("reimb_description"), rs.getString("reimb_receipt"), rs.getInt("reimb_author"), rs.getInt("reimb_resolver"), rs.getInt("reimb_status_id"), rs.getInt("reimb_type_id")));
 			}
 		}
 		catch(SQLException e) {
-			System.out.println("Sql exception happened yo");
+			System.out.println("Something went wrong during sql execution");
 			e.printStackTrace();
 		}
 		

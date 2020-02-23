@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.revature.dao.ReimbursementImp;
 import com.revature.model.ReimbStatus;
 import com.revature.model.User;
@@ -52,22 +53,53 @@ public class ErsServlet extends HttpServlet {
 		ReimbursementImp reimDao = new ReimbursementImp();
 		ObjectMapper om = new ObjectMapper();
 		// TODO will be removed once an actual user is passed with the get method to determine intentions, using one that exists in db
-		User theUser = new User(0, "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", 1);
-			
-		if (theUser.getUserRoleId()== 1) {	//if the roleId is 1, they are a manager and wanna see reimbursements...
-			ArrayList<Reimbursement> reimbsRequested = reimDao.extractReimbursementsByStatus(theUser, ReimbStatus.APPROVED);
-			System.out.println("jank debugging after getUserRoleId");
-			om.writeValue(response.getWriter(), reimbsRequested);
+//		User theUser = new User(0, "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", "doesn'tmatter", 1);//used previously for testing
+	    int intUserId;
+	    int intUserRoleId;
+	    
+		String userID = request.getParameter("userId");
+	    System.out.println("The parameter userId is of value: "+ userID);
+	    String userName = request.getParameter("userName");
+	    System.out.println("The parameter userName is of value: "+ userName);
+	    String firstName = request.getParameter("firstName");
+	    String lastName = request.getParameter("lastName");
+	    String email = request.getParameter("email");
+	    String userRoleId = request.getParameter("userRoleId");
+	    System.out.println("The parameter userRoleId is of value" + userRoleId);
+	    
+	    intUserId = Integer.valueOf(userID);
+	    intUserRoleId = Integer.valueOf(userRoleId);
+	    
+		User theUser = new User(intUserId, userName, firstName, lastName, email, intUserRoleId);
+//		try{
+////			 theUser = om.readValue(request.getReader(), User.class); 	//unmarshall
+//		}
+//		catch(MismatchedInputException e) {
+//			System.out.println("No user is currently logged in...");
+//			e.printStackTrace();
+//		}
+		System.out.println("The role id of the user is..." + theUser.getUserRoleId());
+		if (!theUser.equals(null)) {
+			if (theUser.getUserRoleId()== 1) {	//if the roleId is 1, they are a manager and wanna see reimbursements...
+				ArrayList<Reimbursement> reimbsRequested = reimDao.extractReimbursementsByStatus(theUser, ReimbStatus.PENDING);
+				System.out.println("jank debugging after getUserRoleId");
+				om.writeValue(response.getWriter(), reimbsRequested);//return as JSON using marshalling
+				
+			}
+			else {//TODO add logic for a get request of a user
+				System.out.println("jank debugging User is not a manager...");
+				response.getWriter().append("User is not a manager").append(request.getContextPath());
+			}
 			
 		}
-		else {
-			System.out.println("jank debugging User is not a manager...");
-			response.getWriter().append("User is not a manager").append(request.getContextPath());
-		}
-		//return as JSON using marshalling
 		
 		
 		
+	}
+
+	private int parseInt(String parameter) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	/**
