@@ -1,16 +1,31 @@
 package com.revature.model;
 
+import java.util.ArrayList;
+
 public class User {
 	
-	public static final int FINANCE_MANAGER = 1;
-    public static final int EMPLOYEE = 2;
 
+	private ArrayList<Reimbursement> managerViewableReimbs;
     private int userID;
     private String userName;
-    private String password;
     private String firstName;
     private String lastName;
     private String email;
+	private int userRoleId;
+    public User(int userID, String userName, String firstName, String lastName, String email, int userRoleId) {
+		super();
+		this.userID = userID;
+		this.userName = userName;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.userRoleId = userRoleId;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getUserID() {
 		return userID;
 	}
@@ -22,12 +37,6 @@ public class User {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -47,25 +56,19 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public static int getFinanceManager() {
-		return FINANCE_MANAGER;
+	public int getUserRoleId() {
+		return userRoleId;
 	}
-	public static int getEmployee() {
-		return EMPLOYEE;
+	public void setUserRoleId(int userRoleId) {
+		this.userRoleId = userRoleId;
 	}
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", userName=" + userName + ", password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", email=" + email + "]";
+	public ArrayList<Reimbursement> getManagerViewableReimbs() {//will return null for regular users
+		return managerViewableReimbs;
 	}
-	public User(int userID, String userName, String password, String firstName, String lastName, String email) {
-		super();
-		this.userID = userID;
-		this.userName = userName;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
+	public void setManagerViewableReimbs(ArrayList<Reimbursement> managerViewableReimbs) {//will be used to set the current Reimbs viewable by manager
+		this.managerViewableReimbs.clear();//clears out previous reimbs
+		this.managerViewableReimbs = managerViewableReimbs;
 	}
+	
     
 }
