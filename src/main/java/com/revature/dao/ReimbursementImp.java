@@ -28,10 +28,13 @@ public class ReimbursementImp implements Ireimbursement {
 
 		switch(typeRequested) {
 			case PENDING: reimbStatusParam = "PENDING";
+			break;
 				
 			case APPROVED:reimbStatusParam = "APPROVED";
+			break;
 				
 			case REJECTED:reimbStatusParam = "REJECTED";
+			break;
 			
 		}
 		try(Connection connection = com.revature.util.ConnectionUtil.getConnection()){
