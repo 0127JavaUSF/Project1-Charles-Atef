@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.UserImp;
 import com.revature.model.User;
 
@@ -57,24 +58,30 @@ public class LogInServlet extends HttpServlet {
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
 		UserImp userImp = new UserImp();
+		User user = null;
 		HttpSession session = request.getSession();//changed 2/23 11:03 charles
 		try {
-			User user = userImp.logIn(name, password);
-			session.setAttribute("logged User",user.getUserID());//sets session attribute to integer
-			session.setAttribute("user role", user.getUserRoleId());//also integer
-			session.setAttribute("User name", user.getUserName());//is a string
+			 user = userImp.logIn(name, password);
+			//session.setAttribute("logged User",user.getUserID());//sets session attribute to integer
+			//session.setAttribute("user role", user.getUserRoleId());//also integer
+			//session.setAttribute("User name", user.getUserName());//is a string
+			session.setAttribute("User",user); //User
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (session.getAttribute("user role").equals(1)) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		 objectMapper.writeValue(response.getWriter(),user);
+		//response.getWriter().write();
+		//if (session.getAttribute())
+		/*if (session.getAttribute("user role").equals(1)) {
 			System.out.println("User is manager, insert route here");
 			RequestDispatcher rqstDispatcher = request.getRequestDispatcher("/ManagerServlet");
 			rqstDispatcher.forward(request, response);
 		}
 		else {
 			System.out.println("session attribute user role value is:" + (String)session.getAttribute("user role"));
-		}
+		}*/
 		
 	}
 

@@ -1,18 +1,12 @@
 package com.revature.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.mindrot.jbcrypt.BCrypt;
-
-import com.revature.util.ConnectionUtil;
 import com.revature.util.PasswordUtils;
 
 public class Hashing {
 	protected static final String USER_TABLE = "ers_users";
-	public void hash(String password) throws SQLException {
+	public String hash(String password) throws SQLException {
 		//String password=null;
 		String salt = "revature";
 		String hashedPassword = PasswordUtils.generateSecurePassword(password,salt);
@@ -39,7 +33,8 @@ public class Hashing {
 	} catch (SQLException e) {
 		throw new SQLException();
 	}*/
-}
+		return salt;
+	}
 	
 	
 

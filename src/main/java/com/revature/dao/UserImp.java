@@ -5,6 +5,7 @@ package com.revature.dao;
 import com.revature.Exceptions.InvalidLogInException;
 import com.revature.Exceptions.UserNameException;
 import com.revature.model.User;
+import com.revature.service.Hashing;
 import com.revature.util.ConnectionUtil;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -23,8 +24,8 @@ public class UserImp implements Iuser {
 			statement.setString(1, username);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				
-//				
+				String hashedpasword = new Hashing().hash(password);
+//
 //			    private int userID;
 //			    private String userName;
 //			    private String firstName;
@@ -41,7 +42,8 @@ public class UserImp implements Iuser {
 				String table_password = resultSet.getString("ers_password"); //password from the table
 
 				if (username.equals(user_name) ){
-					if ( table_password.equals(password)){
+
+					if ( table_password.equals(hashedpasword)){
 						return new User(userID,user_name, firstName, lastName, email, userRoleId);
 					} else {
 						throw new InvalidLogInException("Wrong Password");
