@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class User {
 	
 
+
 	private ArrayList<Reimbursement> managerViewableReimbs;
     private int userID;
     private String userName;
@@ -68,6 +69,12 @@ public class User {
 	public void setManagerViewableReimbs(ArrayList<Reimbursement> managerViewableReimbs) {//will be used to set the current Reimbs viewable by manager
 		this.managerViewableReimbs.clear();//clears out previous reimbs
 		this.managerViewableReimbs = managerViewableReimbs;
+	}
+	@Override
+	public String toString() {
+		return "User [managerViewableReimbs=" + managerViewableReimbs + ", userID=" + userID + ", userName=" + userName
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", userRoleId="
+				+ userRoleId + "]";
 	}
 	
     

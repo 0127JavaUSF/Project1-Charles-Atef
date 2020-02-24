@@ -6,16 +6,20 @@
   <display-name>Archetype Created Web Application</display-name>
 
 
+   
    <servlet>
-   	<servlet-name>ErsServlet</servlet-name>
-   	<servlet-class>com.revature.servlets.ErsServlet</servlet-class>
+   	<servlet-name>LogInServlet</servlet-name>
+   	<display-name>LogInServlet</display-name>
+   	<description></description>
+   	<servlet-class>com.revature.servlets.LogInServlet</servlet-class>
    	<load-on-startup>0</load-on-startup>
    </servlet>
   
 
+  
   <servlet-mapping>
-  	<servlet-name>ErsServlet</servlet-name>
-  	<url-pattern>/ErsServlet/</url-pattern>
+  	<servlet-name>LogInServlet</servlet-name>
+  	<url-pattern>/LogInServlet</url-pattern>
   </servlet-mapping>
 
   	<welcome-file-list>

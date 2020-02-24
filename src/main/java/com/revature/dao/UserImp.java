@@ -16,18 +16,33 @@ import java.sql.SQLException;
 public class UserImp implements Iuser {
 
 	protected static final String USER_TABLE = "ers_users";
-	public boolean logIn(String username, String password,User User) throws SQLException {
+	public User logIn(String username, String password) throws SQLException {
 		try(Connection connection = ConnectionUtil.getConnection()) {
-			String sql = "Select * from " + USER_TABLE + " Where ers_user_id = ?";
+			String sql = "Select * from " + USER_TABLE + " Where ers_username = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setInt(1, User.getUserID());
+			statement.setString(1, username);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				String table_password = resultSet.getString("ers_password"); //password from the table
+				
+//				
+//			    private int userID;
+//			    private String userName;
+//			    private String firstName;
+//			    private String lastName;
+//			    private String email;
+//				private int userRoleId;
+				int userID = resultSet.getInt("ers_user_id");
 				String user_name = resultSet.getString("ers_username");
+				String firstName = resultSet.getString("user_first_name");
+				String lastName = resultSet.getString("user_last_name");
+				String email = resultSet.getString("user_email");
+				int userRoleId = resultSet.getInt("user_role_id");
+				
+				String table_password = resultSet.getString("ers_password"); //password from the table
+
 				if (username.equals(user_name) ){
 					if ( table_password.equals(password)){
-						return true;
+						return new User(userID,user_name, firstName, lastName, email, userRoleId);
 					} else {
 						throw new InvalidLogInException("Wrong Password");
 					}
@@ -43,7 +58,7 @@ public class UserImp implements Iuser {
 		}
 		
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override

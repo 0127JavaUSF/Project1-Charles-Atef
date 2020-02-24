@@ -6,7 +6,7 @@ import com.revature.model.User;
 
 public interface Iuser {
 	
-	boolean logIn(String username, String password,User User) throws SQLException;
+	User logIn(String username, String password) throws SQLException;
 	String hashPassword() throws SQLException;
 
 }
