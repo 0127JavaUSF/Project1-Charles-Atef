@@ -62,6 +62,7 @@ public class LogInServlet extends HttpServlet {
 		HttpSession session = request.getSession();//changed 2/23 11:03 charles
 		try {
 			 user = userImp.logIn(name, password);
+			 System.out.println("GET THE USER MAYBE, HERES TOSTRING METHOD: " + user.toString());
 			//session.setAttribute("logged User",user.getUserID());//sets session attribute to integer
 			//session.setAttribute("user role", user.getUserRoleId());//also integer
 			//session.setAttribute("User name", user.getUserName());//is a string
@@ -70,8 +71,18 @@ public class LogInServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
-		 objectMapper.writeValue(response.getWriter(),user);
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			
+			 objectMapper.writeValue(response.getWriter(),user);
+		}
+		catch(NullPointerException e){
+		
+			e.printStackTrace();
+			
+		}
+		
+
 		//response.getWriter().write();
 		//if (session.getAttribute())
 		/*if (session.getAttribute("user role").equals(1)) {

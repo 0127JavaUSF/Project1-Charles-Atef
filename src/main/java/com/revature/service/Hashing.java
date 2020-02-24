@@ -33,7 +33,7 @@ public class Hashing {
 	} catch (SQLException e) {
 		throw new SQLException();
 	}*/
-		return salt;
+		return hashedPassword;
 	}
 	
 	

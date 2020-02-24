@@ -22,9 +22,14 @@ public class UserImp implements Iuser {
 			String sql = "Select * from " + USER_TABLE + " Where ers_username = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, username);
+
 			ResultSet resultSet = statement.executeQuery();
+
+			String hashedpasword = new Hashing().hash(password);
+			
 			if (resultSet.next()) {
-				String hashedpasword = new Hashing().hash(password);
+				System.out.println("Result set is hitting" + resultSet.toString());
+				
 //
 //			    private int userID;
 //			    private String userName;
@@ -42,8 +47,10 @@ public class UserImp implements Iuser {
 				String table_password = resultSet.getString("ers_password"); //password from the table
 
 				if (username.equals(user_name) ){
-
+					System.out.println("username does equal the username");
+					System.out.println("table password is: "+ table_password + "hashedpassword is: "+ hashedpasword);
 					if ( table_password.equals(hashedpasword)){
+						System.out.println("password matches hash");
 						return new User(userID,user_name, firstName, lastName, email, userRoleId);
 					} else {
 						throw new InvalidLogInException("Wrong Password");
