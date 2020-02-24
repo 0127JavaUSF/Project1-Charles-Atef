@@ -4,6 +4,7 @@ package com.revature.dao;
 
 import com.revature.Exceptions.InvalidLogInException;
 import com.revature.Exceptions.UserNameException;
+import com.revature.model.User;
 import com.revature.util.ConnectionUtil;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -15,16 +16,17 @@ import java.sql.SQLException;
 public class UserImp implements Iuser {
 
 	protected static final String USER_TABLE = "ers_users";
-	public boolean logIn(String username, String password) throws SQLException {
+	public boolean logIn(String username, String password,User User) throws SQLException {
 		try(Connection connection = ConnectionUtil.getConnection()) {
-			String sql = "Select * from " + USER_TABLE;
+			String sql = "Select * from " + USER_TABLE + " Where ers_user_id = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, User.getUserID());
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				String table_password = resultSet.getString("ers_password"); //password from the table
 				String user_name = resultSet.getString("ers_username");
-				if (user_name == user_name){
-					if (password == table_password){
+				if (username.equals(user_name) ){
+					if ( table_password.equals(password)){
 						return true;
 					} else {
 						throw new InvalidLogInException("Wrong Password");

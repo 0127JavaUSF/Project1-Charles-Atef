@@ -7,10 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.revature.model.ReimbStatus;
+import com.revature.model.ReimbType;
 import com.revature.model.Reimbursement;
 import com.revature.model.User;
+import com.revature.util.ConnectionUtil;
 
 public class ReimbursementImp implements Ireimbursement {
+	
+	
+	private static final String REIMB = "ers_reimbursement";
+	//private static final Object ReimbType.OTHER = null;
 
 	@Override
 	public ArrayList<Reimbursement> extractReimbursementsByStatus(User manager, ReimbStatus typeRequested) {
@@ -73,15 +79,40 @@ public class ReimbursementImp implements Ireimbursement {
 	}
 
 	@Override
-	public boolean addReimbursement(User employeeErs, Reimbursement ersReimbursement) {
+	public Reimbursement addReimbursement(User employeeErs, Reimbursement ersReimbursement) {
 		// TODO Auto-generated method stub
-		return false;
+		try(Connection connection = ConnectionUtil.getConnection()){
+			
+			String Sql ="INSERT INTO " + REIMB+" (reimb_amount, reimb_submitted,reimb_description,reimb_receipt,reimb_author, reimb_type_id)"
+					+"VALUES(?,?,?,?,?,?) RETURNING *";
+			PreparedStatement statement = connection.prepareStatement(Sql);
+			statement.setDouble(1, ersReimbursement.getReimbAmount());
+			statement.setTimestamp(2, ersReimbursement.getReimbSubmitted());
+			statement.setString(3, ersReimbursement.getReimbDescription());
+			statement.setString(4, ersReimbursement.getReimbReceipt());
+			statement.setInt(5, 3);
+			//statement.setObject(6, ReimbType.OTHER);
+			statement.setInt(6, 1);
+			ResultSet resultSet = statement.executeQuery();
+			if(resultSet.next()) {
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public boolean approveOrDeny(User adminErs, Reimbursement reimbursement, boolean isApproved) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public Reimbursement update(int reimbID, int statusID, int resolver) {
+		return null;
 	}
 
 }

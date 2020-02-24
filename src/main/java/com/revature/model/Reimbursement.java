@@ -12,7 +12,18 @@ public class Reimbursement {
 	private String reimbReceipt;
     private int reimbAuthor;
     private int reimbResolver;
-    private int reimbStatusId;
+    public Reimbursement(double reimbAmount, Timestamp reimbSubmitted, String reimbDescription, String reimbReceipt,
+			int reimbAuthor, int reimbStatusId, int reimbTypeId) {
+		super();
+		this.reimbAmount = reimbAmount;
+		this.reimbSubmitted = reimbSubmitted;
+		this.reimbDescription = reimbDescription;
+		this.reimbReceipt = reimbReceipt;
+		this.reimbAuthor = reimbAuthor;
+		this.reimbStatusId = reimbStatusId;
+		this.reimbTypeId = reimbTypeId;
+	}
+	private int reimbStatusId;
     public int getReimId() {
 		return reimId;
 	}
