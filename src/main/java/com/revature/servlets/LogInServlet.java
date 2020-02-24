@@ -3,6 +3,7 @@ package com.revature.servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,15 +57,23 @@ public class LogInServlet extends HttpServlet {
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
 		UserImp userImp = new UserImp();
+		HttpSession session = request.getSession();//changed 2/23 11:03 charles
 		try {
 			User user = userImp.logIn(name, password);
-			HttpSession session = request.getSession();
-			session.setAttribute("logged User",user.getUserID());
-			session.setAttribute("user role", user.getUserRoleId());
-			session.setAttribute("User name", user.getUserName());
+			session.setAttribute("logged User",user.getUserID());//sets session attribute to integer
+			session.setAttribute("user role", user.getUserRoleId());//also integer
+			session.setAttribute("User name", user.getUserName());//is a string
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (session.getAttribute("user role").equals(1)) {
+			System.out.println("User is manager, insert route here");
+			RequestDispatcher rqstDispatcher = request.getRequestDispatcher("/ManagerServlet");
+			rqstDispatcher.forward(request, response);
+		}
+		else {
+			System.out.println("session attribute user role value is:" + (String)session.getAttribute("user role"));
 		}
 		
 	}
