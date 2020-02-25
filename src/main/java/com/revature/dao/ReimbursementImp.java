@@ -83,7 +83,7 @@ public class ReimbursementImp implements Ireimbursement {
 	}
 
 	@Override
-	public Reimbursement addReimbursement(User employeeErs, Reimbursement ersReimbursement) {
+	public boolean addReimbursement(User employeeErs, Reimbursement ersReimbursement) {
 		// TODO Auto-generated method stub
 		try(Connection connection = ConnectionUtil.getConnection()){
 			
@@ -99,14 +99,14 @@ public class ReimbursementImp implements Ireimbursement {
 			statement.setInt(6, 1);
 			ResultSet resultSet = statement.executeQuery();
 			if(resultSet.next()) {
-				
+				return true;
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	@Override
