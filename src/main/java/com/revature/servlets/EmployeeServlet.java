@@ -31,7 +31,7 @@ public class EmployeeServlet extends HttpServlet {
 		Reimbursement reimbursement = new Reimbursement();
 		try {
 			user = (User) session.getAttribute("User");
-			if (user.getUserID()!= 2) {
+			if (user.getUserRoleId()!= 2) {
 				response.setStatus(401);
 				return;
 				
@@ -44,13 +44,14 @@ public class EmployeeServlet extends HttpServlet {
 		//Employee should be able to create a reimbuiersment
 		//get the request information 
 		//reimbursement.setReimId(user.getUserID());
+		System.out.println("In the employee dopost");
 		reimbursement.setReimbAmount(Double.parseDouble(request.getParameter("amount"))); //get the value from the user
 		reimbursement.setReimbDescription(request.getParameter("description"));
 		reimbursement.setReimbReceipt(request.getParameter("receipt_url")); //S3 buckets 
 		reimbursement.setReimbSubmitted(new Timestamp(System.currentTimeMillis()));
 		reimbursement.setReimbAuthor(user.getUserID()); //logged user ID.
 		boolean addReimbursement = reimbursementImp.addReimbursement(user,reimbursement); //to check if the request got through the database
-		if (addReimbursement){
+		/*if (addReimbursement){
 			response.getWriter().write("The request has been updated");
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setContentText("You request has been added");
@@ -59,14 +60,14 @@ public class EmployeeServlet extends HttpServlet {
 		}
 		else {
 
-		}
+		}*/
 
 
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	//this.doGet(request, response);
+    	this.doGet(request, response);
 
     }
 }
