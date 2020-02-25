@@ -16,6 +16,7 @@ public class ReimbursementImp implements Ireimbursement {
 	
 	
 	private static final String REIMB = "ers_reimbursement";
+	private static final String USER = "ers_user";
 	//private static final Object ReimbType.OTHER = null;
 
 	@Override
@@ -110,12 +111,45 @@ public class ReimbursementImp implements Ireimbursement {
 
 	@Override
 	public boolean approveOrDeny(User adminErs, Reimbursement reimbursement, boolean isApproved) {
-		// TODO Auto-generated method stub
+		if (isApproved == true){
+			try (Connection connection = ConnectionUtil.getConnection()){
+				String sql = "UPDATE " + REIMB + " SET reimb_status_id = 2, REIMB_RESOLVER =?, "
+						+" REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_ID = ?";
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement.setInt(1,adminErs.getUserID());
+				statement.setInt(2,reimbursement.getReimId());
+				int rowUpdated = statement.executeUpdate();
+				if (rowUpdated != 1){
+					System.out.println("Something wrong happened");
+					return false;
+				}else {
+					return true;
+				}
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+		if (isApproved ==false){
+			try (Connection connection = ConnectionUtil.getConnection()){
+				String sql = "UPDATE " + REIMB + " SET reimb_status_id = 3, REIMB_RESOLVER =?, "
+						+" REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_ID = ?";
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement.setInt(1,adminErs.getUserID());
+				statement.setInt(2,reimbursement.getReimId());
+				int rowUpdated = statement.executeUpdate();
+				if (rowUpdated != 1){
+					System.out.println("Something wrong happened");
+					return false;
+				}else {
+					return true;
+				}
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 	
-	public Reimbursement update(int reimbID, int statusID, int resolver) {
-		return null;
-	}
+
 
 }
