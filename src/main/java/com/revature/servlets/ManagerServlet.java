@@ -33,34 +33,20 @@ public class ManagerServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(false);
-		boolean isNull = (session == null);
-		System.out.println("Is the session valid true if so...?" + isNull);
-		//check if they're a manager with the session variable
-		User user = null;
-		try {
-			 user = (User) session.getAttribute("User");
-			 if (!(user.getUserRoleId() == 1)) {  //they are a manager
-				 response.setStatus(401);
-				 return;
-			 }
+
+		User user =  returnManager(request, response);//validates the session
+		if (user == null) {
+			return;
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			
-		}
-		
 		//request should indicate their intention for which status of reimbursement 
 		String reimbStatusRequested = request.getParameter("statusType");//this assumes a button on the ui for submitting a form
 		ReimbursementImp reimDao = new ReimbursementImp();
 		ReimbStatus statusEnum = null;
 		System.out.println("The actual string of the parameter sent is: " + reimbStatusRequested);
 		if(reimbStatusRequested.contentEquals("PENDING")){
-			System.out.println("status is pending");
 			statusEnum = ReimbStatus.PENDING;
 		}
 		else if(reimbStatusRequested.contentEquals("APPROVED")) {
-			System.out.println("status is approved");
 			statusEnum = ReimbStatus.APPROVED;
 		}
 		else {
@@ -78,7 +64,48 @@ public class ManagerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.doGet(request, response);
-}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {//approve or deny a 'PENDING' reimbursement
+		User user =  returnManager(request, response);//validates the session
+		if (user == null) {
+			return;
+		}
+		ReimbursementImp reimbDao = new ReimbursementImp();
+		String reimbursementIdString = request.getParameter("reimbursementId");//get the associated id of a particular reimbursement div/card
+		String managerChoice = request.getParameter("managerChoice");//get the action the manager chose to perform, expecting "APPROVED" OR "DENIED" STRING LITERAL
+		int reimbursementId = Integer.parseInt(reimbursementIdString);
+		
+		if (reimbDao.approveOrDeny(user, reimbursementId, managerChoice)) {
+			response.setStatus(201);//updated successfully
+			return;
+		}
+		else {
+			response.setStatus(400);
+			return;
+		}
+		
+		
+		
+		
+	}
+	private User returnManager(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(false);
+		boolean isNull = !(session == null);
+		System.out.println("Session is valid ?" + isNull);
+		//check if they're a manager with the session variable
+		User user = null;
+		try {
+			 user = (User) session.getAttribute("User");
+			 if (!(user.getUserRoleId() == 1)) {  //they are not a manager
+				 response.setStatus(401);
+	
+			 }
+		}
+		catch(Exception e){//in case the session doesn't have the values for whatever reason(unknown unknowns)
+			response.setStatus(401);
+			e.printStackTrace();
+
+		}
+		return user;
+		
+	}
 }

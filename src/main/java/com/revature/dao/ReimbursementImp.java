@@ -110,46 +110,30 @@ public class ReimbursementImp implements Ireimbursement {
 	}
 
 	@Override
-	public boolean approveOrDeny(User adminErs, Reimbursement reimbursement, boolean isApproved) {
-		if (isApproved == true){
-			try (Connection connection = ConnectionUtil.getConnection()){
-				String sql = "UPDATE " + REIMB + " SET reimb_status_id = 2, REIMB_RESOLVER =?, "
-						+" REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_ID = ?";
-				PreparedStatement statement = connection.prepareStatement(sql);
-				statement.setInt(1,adminErs.getUserID());
-				statement.setInt(2,reimbursement.getReimId());
-				int rowUpdated = statement.executeUpdate();
-				if (rowUpdated != 1){
-					System.out.println("Something wrong happened");
-					return false;
-				}else {
-					return true;
-				}
-			}catch (SQLException e){
-				e.printStackTrace();
+	public boolean approveOrDeny(User adminErs, int reimbursementId, String approveOrDeny) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			String sql = "update ers_reimbursement  " + 
+					" SET reimb_resolved = Now(), reimb_resolver = ?, reimb_status_id = (SELECT reimb_status_id FROM ers_reimbursement_status WHERE reimb_status = ?) " + 
+					" WHERE ers_reimbursement.reimb_id = ? RETURNING *";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, adminErs.getUserID());
+			ps.setString(2, approveOrDeny);
+			ps.setInt(3, reimbursementId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				
 			}
+			return true;
 		}
-		if (isApproved ==false){
-			try (Connection connection = ConnectionUtil.getConnection()){
-				String sql = "UPDATE " + REIMB + " SET reimb_status_id = 3, REIMB_RESOLVER =?, "
-						+" REIMB_RESOLVED = CURRENT_TIMESTAMP WHERE REIMB_ID = ?";
-				PreparedStatement statement = connection.prepareStatement(sql);
-				statement.setInt(1,adminErs.getUserID());
-				statement.setInt(2,reimbursement.getReimId());
-				int rowUpdated = statement.executeUpdate();
-				if (rowUpdated != 1){
-					System.out.println("Something wrong happened");
-					return false;
-				}else {
-					return true;
-				}
-			}catch (SQLException e){
-				e.printStackTrace();
-			}
+		catch(SQLException e) {
+			e.printStackTrace();
+
 		}
 		return false;
 	}
 	
+
+
 
 
 }
