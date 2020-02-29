@@ -64,6 +64,7 @@ public class ManagerServlet extends HttpServlet {
 		
 		ArrayList<Reimbursement> reimbArr = reimDao.extractReimbursementsByStatus(user, statusEnum);
 		//get reimbursements by type request
+		response.setContentType("application/json");
 		ObjectMapper om = new ObjectMapper();
 		om.writeValue(response.getWriter(), reimbArr);
 

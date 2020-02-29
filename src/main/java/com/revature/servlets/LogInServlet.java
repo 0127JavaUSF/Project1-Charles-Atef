@@ -84,6 +84,7 @@ public class LogInServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		try {
+			response.setContentType("application/json");
 			ObjectMapper objectMapper = new ObjectMapper();
 			
 			 objectMapper.writeValue(response.getWriter(),user);
