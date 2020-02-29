@@ -17,7 +17,15 @@ import com.revature.model.User;
 
 public class ManagerServlet extends HttpServlet {
 
-    
+    @Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.addHeader("Access-Control-Allow-Headers", "authorization");
+		resp.addHeader("Access-Control-Allow-Methods", "GET POST PUT DELETE");
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+		
+		// TODO Auto-generated method stub
+		super.service(req, resp);
+	}
     /**
      * @see HttpServlet#HttpServlet()
      */

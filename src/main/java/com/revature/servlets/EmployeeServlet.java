@@ -22,7 +22,18 @@ public class EmployeeServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+    @Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.addHeader("Access-Control-Allow-Headers", "authorization");
+		resp.addHeader("Access-Control-Allow-Methods", "GET POST PUT DELETE");
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+		
+		// TODO Auto-generated method stub
+		super.service(req, resp);
+	}
+    
+    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//DisplayMode displayMode = new DisplayMode();
 		HttpSession session = request.getSession(false);
@@ -66,7 +77,8 @@ public class EmployeeServlet extends HttpServlet {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	this.doGet(request, response);
 
     }
